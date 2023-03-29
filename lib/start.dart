@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:test/models/country.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'dart:convert';
 
 class StartPage extends StatefulWidget {
   @override
@@ -60,51 +62,59 @@ class _StartPageState extends State<StartPage> {
         onPressed: () async {
           if (selectedCountry.isNotEmpty) {
             String name = "";
-    String flag = "";
-    String description = "";
-    List<List<String>> choices = [[]];
-    choices.clear();
-    List<int> answers = [];
-    List<String> questions = [];
-    List<String> images = [];
-    String timezone = "";
-    CollectionReference<Map<String, dynamic>> countriesRef =
-        FirebaseFirestore.instance.collection('countries');
-    QuerySnapshot<Map<String, dynamic>> querySnapshot =
-        await countriesRef.get();
+            String flag = "";
+            String description = "";
+            String lat = "";
+            String lng = "";
+            String capital = "";
+            List<List<String>> choices = [[]];
+            choices.clear();
+            List<int> answers = [];
+            List<String> questions = [];
+            List<String> images = [];
+            String timezone = "";
+            CollectionReference<Map<String, dynamic>> countriesRef =
+                FirebaseFirestore.instance.collection('countries');
+            QuerySnapshot<Map<String, dynamic>> querySnapshot =
+                await countriesRef.get();
 
-    // Process the data
-    querySnapshot.docs.forEach((doc) {
-      doc.data().forEach((key, value) {
-        if (key == selectedCountry) {
-          name = key;
-          flag = value["flag"];
-          description = value["description"];
-          timezone = value["timezone"];
-          images = List<String>.from(value['pictures'] as List);
-          value["quizQuestions"].forEach((val) {
-            List<String> ch = [];
-            val["answers"].forEach((ans) {
-              ch.add(ans);
+            // Process the data
+            querySnapshot.docs.forEach((doc) {
+              doc.data().forEach((key, value) {
+                if (key == selectedCountry) {
+                  name = key;
+                  flag = value["flag"];
+                  lat = value["lat"];
+                  lng = value["lng"];
+                  capital = value["capital"];
+                  description = value["description"];
+                  timezone = value["timezone"];
+                  images = List<String>.from(value['pictures'] as List);
+                  value["quizQuestions"].forEach((val) {
+                    List<String> ch = [];
+                    val["answers"].forEach((ans) {
+                      ch.add(ans);
+                    });
+                    answers.add(val["correctAnswer"]);
+                    questions.add(val["question"]);
+                    choices.add(ch);
+                  });
+                }
+              });
             });
-            answers.add(val["correctAnswer"]);
-            questions.add(val["question"]);
-            choices.add(ch);
-          });
-        }
-      });
-    });
-    print(timezone);
-    Country cnt=Country(
-        name: name,
-        flag: flag,
-        description: description,
-        images: images,
-        choices: choices,
-        answers: answers,
-        questions: questions,
-        timezone: timezone);
-            Navigator.pushNamed(context, '/time', arguments: cnt);
+            Country cnt = Country(
+                name: name,
+                flag: flag,
+                description: description,
+                images: images,
+                choices: choices,
+                answers: answers,
+                questions: questions,
+                timezone: timezone,
+                lat: lat,
+                lng: lng,
+                capital: capital);
+            Navigator.pushNamed(context, '/info', arguments: cnt);
           }
         },
         child: const Icon(Icons.arrow_forward),

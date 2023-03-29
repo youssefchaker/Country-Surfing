@@ -3,6 +3,7 @@ import 'package:test/pages/choose_location.dart';
 import 'package:test/start.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:test/time.dart';
+import 'package:test/info.dart';
 import 'package:test/models/country.dart';
 
 void main() async {
@@ -24,6 +25,11 @@ class MainApp extends StatelessWidget {
         final args =
             ModalRoute.of(context)!.settings.arguments as Country;
         return CountryTime(country: args);
+      },
+      '/info': (context) {
+        final args =
+            ModalRoute.of(context)!.settings.arguments as Country;
+        return CountryInfo(country: args);
       },
     });
   }
