@@ -114,7 +114,7 @@ class _StartPageState extends State<StartPage> {
                 lat: lat,
                 lng: lng,
                 capital: capital);
-            Navigator.pushNamed(context, '/info', arguments: cnt);
+            Navigator.pushNamed(context, '/quiz', arguments: cnt);
           }
         },
         child: const Icon(Icons.arrow_forward),

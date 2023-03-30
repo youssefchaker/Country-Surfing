@@ -90,26 +90,25 @@ class _CountryTimeState extends State<CountryTime> {
                         ),
                         SizedBox(height: 8.0),
                         Column(
-                          children:<Widget> [
+                          children: <Widget>[
                             Text(
-                          _currentTime.substring(0,10),
-                          style: TextStyle(
-                            fontSize: 48.0,
-                            letterSpacing: 2.0,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Text(
-                          _currentTime.substring(11,16),
-                          style: TextStyle(
-                            fontSize: 48.0,
-                            letterSpacing: 2.0,
-                            color: Colors.white,
-                          ),
-                        ),
+                              _currentTime.substring(0, 10),
+                              style: TextStyle(
+                                fontSize: 48.0,
+                                letterSpacing: 2.0,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Text(
+                              _currentTime.substring(11, 16),
+                              style: TextStyle(
+                                fontSize: 48.0,
+                                letterSpacing: 2.0,
+                                color: Colors.white,
+                              ),
+                            ),
                           ],
                         )
-                        
                       ],
                     ),
                   ],

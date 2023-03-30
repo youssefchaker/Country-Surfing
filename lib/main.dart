@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:test/time.dart';
 import 'package:test/info.dart';
 import 'package:test/models/country.dart';
+import 'package:test/quiz.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,16 +23,17 @@ class MainApp extends StatelessWidget {
       '/': (context) => StartPage(),
       '/location': (context) => ChooseLocation(),
       '/time': (context) {
-        final args =
-            ModalRoute.of(context)!.settings.arguments as Country;
+        final args = ModalRoute.of(context)!.settings.arguments as Country;
         return CountryTime(country: args);
       },
       '/info': (context) {
-        final args =
-            ModalRoute.of(context)!.settings.arguments as Country;
+        final args = ModalRoute.of(context)!.settings.arguments as Country;
         return CountryInfo(country: args);
+      },
+      '/quiz': (context) {
+        final args = ModalRoute.of(context)!.settings.arguments as Country;
+        return CountryQuiz(country: args);
       },
     });
   }
 }
-
