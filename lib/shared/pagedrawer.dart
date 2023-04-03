@@ -4,6 +4,8 @@ import 'package:test/pages/info.dart';
 import 'package:test/models/country.dart';
 import 'package:test/pages/quiz.dart';
 import 'package:test/pages/request.dart';
+import 'package:test/services/auth.dart';
+import 'package:test/wrapper.dart';
 
 class PageDrawer extends StatefulWidget {
   final Country country;
@@ -15,6 +17,7 @@ class PageDrawer extends StatefulWidget {
 }
 
 class _PageDrawerState extends State<PageDrawer> {
+  final AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -81,6 +84,18 @@ class _PageDrawerState extends State<PageDrawer> {
                       builder: (BuildContext context) => CountryRequest(
                             country: widget.country,
                           )));
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.logout),
+            title: Text('Logout'),
+            onTap: () async {
+              await _auth.signout();
+              Navigator.pushReplacement<void, void>(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => Wrapper(),
+                  ));
             },
           ),
         ],
