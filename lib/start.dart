@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:test/models/country.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'dart:convert';
 
 class StartPage extends StatefulWidget {
   @override
@@ -10,7 +8,7 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartPageState extends State<StartPage> {
-  String selectedCountry = 'Korea';
+  String selectedCountry = "";
 
   List<String> countryList = [];
 
@@ -19,6 +17,7 @@ class _StartPageState extends State<StartPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Choose a Country'),
+        backgroundColor: Colors.blueGrey[800],
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('countries').snapshots(),
@@ -77,8 +76,6 @@ class _StartPageState extends State<StartPage> {
                 FirebaseFirestore.instance.collection('countries');
             QuerySnapshot<Map<String, dynamic>> querySnapshot =
                 await countriesRef.get();
-
-            // Process the data
             querySnapshot.docs.forEach((doc) {
               doc.data().forEach((key, value) {
                 if (key == selectedCountry) {
@@ -114,7 +111,7 @@ class _StartPageState extends State<StartPage> {
                 lat: lat,
                 lng: lng,
                 capital: capital);
-            Navigator.pushNamed(context, '/quiz', arguments: cnt);
+            Navigator.pushNamed(context, '/info', arguments: cnt);
           }
         },
         child: const Icon(Icons.arrow_forward),

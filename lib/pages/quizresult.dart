@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:test/models/country.dart';
 
 class CountryQuizResultsScreen extends StatelessWidget {
   final int score;
   final int totalQuestions;
-  final VoidCallback onRetry;
+  final Country country;
 
   const CountryQuizResultsScreen({
     Key? key,
     required this.score,
     required this.totalQuestions,
-    required this.onRetry,
+    required this.country,
   }) : super(key: key);
 
   @override
@@ -34,6 +35,7 @@ class CountryQuizResultsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Quiz Results'),
+        backgroundColor: Colors.blueGrey[800],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -66,9 +68,9 @@ class CountryQuizResultsScreen extends StatelessWidget {
                 SizedBox(height: 32),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Navigator.pushNamed(context, '/quiz', arguments: country);
                   },
-                  child: Text('Return to main page'),
+                  child: Text('Retry Quiz'),
                 ),
               ],
             ),

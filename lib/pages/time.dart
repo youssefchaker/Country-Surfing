@@ -4,6 +4,8 @@ import 'package:latlong2/latlong.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:test/models/country.dart';
+import 'package:test/shared/countrydrawer.dart';
+import 'package:test/shared/pagedrawer.dart';
 
 class CountryTime extends StatefulWidget {
   final Country country;
@@ -36,24 +38,36 @@ class _CountryTimeState extends State<CountryTime> {
 
   @override
   Widget build(BuildContext context) {
-    isDaytime = DateTime.now()
-                    .toUtc()
-                    .add(
-                        Duration(hours: int.parse(widget.country.timezone![4])))
-                    .hour >
-                6 &&
-            DateTime.now()
-                    .toUtc()
-                    .add(
-                        Duration(hours: int.parse(widget.country.timezone![4])))
-                    .hour <
-                20
-        ? true
-        : false;
-    Color? bgColor = isDaytime ? Colors.blue : Colors.indigo[700];
-
     return Scaffold(
-      backgroundColor: bgColor,
+      backgroundColor: Colors.blueGrey[800],
+      appBar: AppBar(
+        title: const Text('Country Time and Map'),
+        leading: Builder(
+          builder: (context) {
+            return IconButton(
+              icon: Icon(Icons.flag, color: Colors.white),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
+        ),
+        actions: <Widget>[
+          Builder(
+            builder: (context) {
+              return IconButton(
+                icon: Icon(Icons.pages, color: Colors.white),
+                onPressed: () {
+                  Scaffold.of(context).openEndDrawer();
+                },
+              );
+            },
+          )
+        ],
+        backgroundColor: Colors.blueGrey[800],
+      ),
+      drawer: CountryDrawer(),
+      endDrawer: PageDrawer(country: widget.country),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -72,7 +86,7 @@ class _CountryTimeState extends State<CountryTime> {
                       widget.country.name!,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 36.0,
+                        fontSize: 30.0,
                         letterSpacing: 2.0,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -81,26 +95,20 @@ class _CountryTimeState extends State<CountryTime> {
                     SizedBox(height: 16.0),
                     Column(
                       children: [
-                        Text(
-                          'Current Time',
-                          style: TextStyle(
-                            fontSize: 24.0,
-                            color: Colors.grey[300],
-                          ),
-                        ),
                         SizedBox(height: 8.0),
                         Column(
                           children: <Widget>[
                             Text(
-                              _currentTime.substring(0, 10),
+                              _currentTime.substring(0, 10) ??
+                                  'Error loading time',
                               style: TextStyle(
-                                fontSize: 48.0,
+                                fontSize: 40.0,
                                 letterSpacing: 2.0,
                                 color: Colors.white,
                               ),
                             ),
                             Text(
-                              _currentTime.substring(11, 16),
+                              _currentTime.substring(11, 16) ?? '',
                               style: TextStyle(
                                 fontSize: 48.0,
                                 letterSpacing: 2.0,
@@ -108,7 +116,7 @@ class _CountryTimeState extends State<CountryTime> {
                               ),
                             ),
                           ],
-                        )
+                        ),
                       ],
                     ),
                   ],
@@ -119,47 +127,59 @@ class _CountryTimeState extends State<CountryTime> {
               flex: 2,
               child: Stack(
                 children: [
-                  FlutterMap(
-                    options: MapOptions(
-                      center: LatLng(
-                        double.parse(widget.country.lat!.substring(0, 7)),
-                        double.parse(widget.country.lng!.substring(0, 7)),
-                      ),
-                      zoom: 10,
-                    ),
-                    children: [
-                      TileLayer(
-                        urlTemplate:
-                            'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                        subdomains: ['a', 'b', 'c'],
-                      ),
-                      MarkerLayer(
-                        markers: [
-                          Marker(
-                            width: 80.0,
-                            height: 80.0,
-                            point: LatLng(
-                              double.parse(widget.country.lat!.substring(0, 7)),
-                              double.parse(widget.country.lng!.substring(0, 7)),
-                            ),
-                            builder: (ctx) => Container(
-                              child: Icon(
-                                Icons.location_pin,
-                                size: 50,
-                                color: Colors.redAccent,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                  _buildMap(),
                 ],
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildMap() {
+    final lat = double.tryParse(widget.country.lat?.substring(0, 7) ?? '');
+    final lng = double.tryParse(widget.country.lng?.substring(0, 7) ?? '');
+
+    if (lat == null || lng == null) {
+      return Center(
+        child: Text(
+          'Error loading map',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20.0,
+          ),
+        ),
+      );
+    }
+
+    return FlutterMap(
+      options: MapOptions(
+        center: LatLng(lat, lng),
+        zoom: 10,
+      ),
+      children: [
+        TileLayer(
+          urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+          subdomains: ['a', 'b', 'c'],
+        ),
+        MarkerLayer(
+          markers: [
+            Marker(
+              width: 80.0,
+              height: 80.0,
+              point: LatLng(lat, lng),
+              builder: (ctx) => Container(
+                child: Icon(
+                  Icons.location_pin,
+                  size: 50,
+                  color: Colors.redAccent,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

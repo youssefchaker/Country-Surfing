@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:test/models/country.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:test/shared/countrydrawer.dart';
+import 'package:test/shared/pagedrawer.dart';
 
 class CountryInfo extends StatelessWidget {
   final Country country;
@@ -12,12 +14,38 @@ class CountryInfo extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        title:
+            Text("Country Information", style: TextStyle(color: Colors.white)),
         elevation: 0,
+        leading: Builder(
+          builder: (context) {
+            return IconButton(
+              icon: Icon(Icons.flag, color: Colors.white),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
+        ),
+        actions: <Widget>[
+          Builder(
+            builder: (context) {
+              return IconButton(
+                icon: Icon(Icons.pages, color: Colors.white),
+                onPressed: () {
+                  Scaffold.of(context).openEndDrawer();
+                },
+              );
+            },
+          )
+        ],
+        backgroundColor: Colors.blueGrey[800],
       ),
+      drawer: CountryDrawer(),
+      endDrawer: PageDrawer(country: country),
       body: Container(
         decoration: BoxDecoration(
-          color: Colors.grey,
+          color: Colors.grey[800],
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -30,8 +58,8 @@ class CountryInfo extends StatelessWidget {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Colors.grey,
-                      Colors.blueGrey,
+                      Colors.grey[800]!,
+                      Colors.blueGrey[800]!,
                     ],
                   ),
                 ),
@@ -97,17 +125,11 @@ class CountryInfo extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 32),
-                    Text(
-                      'Gallery',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 8),
+
                   ],
                 ),
               ),
+              if (country.images != null && country.images!.isNotEmpty) ...[
               Container(
                 height: 200,
                 child: ListView.builder(
@@ -134,6 +156,7 @@ class CountryInfo extends StatelessWidget {
                   },
                 ),
               ),
+            ],
             ],
           ),
         ),

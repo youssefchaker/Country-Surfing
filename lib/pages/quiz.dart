@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:test/models/country.dart';
-import 'package:test/quizresult.dart';
+import 'package:test/pages/quizresult.dart';
+import 'package:test/shared/countrydrawer.dart';
+import 'package:test/shared/pagedrawer.dart';
 
 class Question {
   final String question;
@@ -75,22 +77,13 @@ class _CountryQuizState extends State<CountryQuiz> {
           builder: (_) => CountryQuizResultsScreen(
             score: _score,
             totalQuestions: questions.length,
-            onRetry: _restartQuiz,
+            country:widget.country,
           ),
         ),
       );
     }
   }
 
-  void _restartQuiz() {
-    if (mounted) {
-      setState(() {
-        _questionIndex = 0;
-        _score = 0;
-        questions.shuffle();
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,12 +96,47 @@ class _CountryQuizState extends State<CountryQuiz> {
       );
     }
 
-    Question currentQuestion = questions[_questionIndex];
+    Question currentQuestion;
+  try {
+    currentQuestion = questions[_questionIndex];
+  } catch (e) {
+    return Scaffold(
+      body: Center(
+        child: Text('Error: Failed to load quiz question.'),
+      ),
+    );
+  }
 
     return Scaffold(
       appBar: AppBar(
         title: Text('Country Quiz'),
+        leading: Builder(
+          builder: (context) {
+            return IconButton(
+              icon: Icon(Icons.flag, color: Colors.white),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
+        ),
+        actions: <Widget>[
+          Builder(
+            builder: (context) {
+              return IconButton(
+                icon: Icon(Icons.pages, color: Colors.white),
+                onPressed: () {
+                  Scaffold.of(context).openEndDrawer();
+                },
+              );
+            },
+          )
+        ],
+        backgroundColor: Colors.blueGrey[800],
       ),
+      drawer: CountryDrawer(),
+      endDrawer: PageDrawer(country: widget.country),
+
       body: Container(
         padding: EdgeInsets.all(16),
         child: Column(
