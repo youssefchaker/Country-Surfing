@@ -8,6 +8,7 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartPageState extends State<StartPage> {
+
   String selectedCountry = "";
 
   List<String> countryList = [];
@@ -22,7 +23,9 @@ class _StartPageState extends State<StartPage> {
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('countries').snapshots(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
           }
 
@@ -59,7 +62,17 @@ class _StartPageState extends State<StartPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          if (selectedCountry.isNotEmpty) {
+          if (selectedCountry.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Please select a country.'),
+                duration: Duration(seconds: 2),
+              ),
+            );
+            return;
+          }
+
+          try {
             String name = "";
             String flag = "";
             String description = "";
@@ -112,6 +125,25 @@ class _StartPageState extends State<StartPage> {
                 lng: lng,
                 capital: capital);
             Navigator.pushNamed(context, '/info', arguments: cnt);
+          } catch (e) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('Error'),
+                  content:
+                      const Text('Cannot retrieve countries from database.'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('OK'),
+                    ),
+                  ],
+                );
+              },
+            );
           }
         },
         child: const Icon(Icons.arrow_forward),

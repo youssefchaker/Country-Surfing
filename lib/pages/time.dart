@@ -19,7 +19,6 @@ class CountryTime extends StatefulWidget {
 class _CountryTimeState extends State<CountryTime> {
   String _currentTime = '';
   bool isDaytime = false;
-  MapController? _controller;
 
   @override
   void initState() {

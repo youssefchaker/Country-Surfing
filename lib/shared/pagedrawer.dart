@@ -26,7 +26,7 @@ class _PageDrawerState extends State<PageDrawer> {
             ),
             child: Center(
               child: Text(
-                'Page Select',
+                'Welcome to Country-Surfing',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24,

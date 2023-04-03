@@ -31,11 +31,16 @@ class _CountryQuizState extends State<CountryQuiz> {
 
   @override
   void initState() {
+    int qindex = 0;
     super.initState();
     questions = widget.country.questions!
-        .map((q) => Question(q, widget.country.choices![_questionIndex]))
+        .map((q) {
+          var question = Question(q, widget.country.choices![qindex]);
+          qindex++;
+          return question;
+        })
         .toList();
-    questions.shuffle();
+questions.shuffle();
   }
 
   @override
@@ -77,13 +82,12 @@ class _CountryQuizState extends State<CountryQuiz> {
           builder: (_) => CountryQuizResultsScreen(
             score: _score,
             totalQuestions: questions.length,
-            country:widget.country,
+            country: widget.country,
           ),
         ),
       );
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -97,15 +101,15 @@ class _CountryQuizState extends State<CountryQuiz> {
     }
 
     Question currentQuestion;
-  try {
-    currentQuestion = questions[_questionIndex];
-  } catch (e) {
-    return Scaffold(
-      body: Center(
-        child: Text('Error: Failed to load quiz question.'),
-      ),
-    );
-  }
+    try {
+      currentQuestion = questions[_questionIndex];
+    } catch (e) {
+      return Scaffold(
+        body: Center(
+          child: Text('Error: Failed to load quiz question.'),
+        ),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -136,41 +140,47 @@ class _CountryQuizState extends State<CountryQuiz> {
       ),
       drawer: CountryDrawer(),
       endDrawer: PageDrawer(country: widget.country),
-
-      body: Container(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              currentQuestion.question,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+      body: SafeArea(
+        child: Container(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                currentQuestion.question,
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            SizedBox(height: 16),
-            ...currentQuestion.choices!.asMap().entries.map((entry) {
-              int index = entry.key;
-              String choice = entry.value;
+              SizedBox(height: 16),
+              Expanded(
+                child: ListView(
+                  children:
+                      currentQuestion.choices!.asMap().entries.map((entry) {
+                    int index = entry.key;
+                    String choice = entry.value;
 
-              return RadioListTile<int>(
-                title: Text(choice),
-                value: index,
-                groupValue: groupValue,
-                onChanged: (value) {
-                  setState(() {
-                    groupValue = value;
-                  });
-                },
-              );
-            }).toList(),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _checkAnswer,
-              child: Text('Submit'),
-            ),
-          ],
+                    return RadioListTile<int>(
+                      title: Text(choice),
+                      value: index,
+                      groupValue: groupValue,
+                      onChanged: (value) {
+                        setState(() {
+                          groupValue = value;
+                        });
+                      },
+                    );
+                  }).toList(),
+                ),
+              ),
+              SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: _checkAnswer,
+                child: Text('Submit'),
+              ),
+            ],
+          ),
         ),
       ),
     );
