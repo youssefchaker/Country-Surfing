@@ -24,7 +24,7 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.grey[800],
       appBar: AppBar(
         backgroundColor: Colors.blueGrey[800],
         elevation: 0.0,

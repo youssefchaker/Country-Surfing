@@ -33,6 +33,7 @@ class CountryQuizResultsScreen extends StatelessWidget {
     }
 
     return Scaffold(
+      backgroundColor: Colors.grey[800],
       appBar: AppBar(
         title: Text('Quiz Results'),
         backgroundColor: Colors.blueGrey[800],
@@ -51,22 +52,27 @@ class CountryQuizResultsScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 16),
                 Text(
-                  'Your score: $score / $totalQuestions',
+                  'Your score:',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
                 SizedBox(height: 16),
                 Text(
-                  message,
+                  '$score / $totalQuestions',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
                 SizedBox(height: 32),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.pink[400],
+                  ),
                   onPressed: () {
                     Navigator.pushNamed(context, '/quiz', arguments: country);
                   },

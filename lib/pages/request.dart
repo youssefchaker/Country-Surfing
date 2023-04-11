@@ -27,8 +27,9 @@ class _CountryRequestState extends State<CountryRequest> {
     }
 
     return Scaffold(
+      backgroundColor: Colors.grey[800],
       appBar: AppBar(
-        title: const Text('Select a new country to add'),
+        title: Center(child: Text('Select a new country to add')),
         leading: Builder(
           builder: (context) {
             return IconButton(
@@ -73,9 +74,15 @@ class _CountryRequestState extends State<CountryRequest> {
                 );
               },
             ),
-            title: Text(countries[index]),
-            trailing:
-                selectedCountry == countries[index] ? Icon(Icons.check) : null,
+            title: Text(
+              countries[index],
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            trailing: selectedCountry == countries[index]
+                ? Icon(Icons.check, color: Colors.green)
+                : null,
             onTap: () {
               setState(() {
                 selectedCountry = countries[index];
@@ -85,6 +92,7 @@ class _CountryRequestState extends State<CountryRequest> {
         },
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.pink[400],
         onPressed: () {
           if (selectedCountry == null) {
             ScaffoldMessenger.of(context).showSnackBar(

@@ -21,7 +21,6 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //wrap the app with stream provider to be able to get the user info anywhere
     return StreamProvider<Users?>.value(
         catchError: (_, __) => null,
         initialData: null,

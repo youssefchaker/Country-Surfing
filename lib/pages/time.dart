@@ -40,7 +40,7 @@ class _CountryTimeState extends State<CountryTime> {
     return Scaffold(
       backgroundColor: Colors.blueGrey[800],
       appBar: AppBar(
-        title: const Text('Country Time and Map'),
+        title: Center(child: Text('Country Time and Map')),
         leading: Builder(
           builder: (context) {
             return IconButton(

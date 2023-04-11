@@ -10,7 +10,6 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartPageState extends State<StartPage> {
-
   String selectedCountry = "";
 
   List<String> countryList = [];
@@ -18,6 +17,7 @@ class _StartPageState extends State<StartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[800],
       appBar: AppBar(
         title: const Text('Choose a Country'),
         backgroundColor: Colors.blueGrey[800],
@@ -44,7 +44,12 @@ class _StartPageState extends State<StartPage> {
                   width: 50,
                   height: 50,
                 ),
-                title: Text(key),
+                title: Text(
+                  key,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
                 trailing: selectedCountry == key
                     ? const Icon(Icons.check, color: Colors.green)
                     : null,
@@ -63,6 +68,7 @@ class _StartPageState extends State<StartPage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.pink[400],
         onPressed: () async {
           if (selectedCountry.isEmpty) {
             ScaffoldMessenger.of(context).showSnackBar(

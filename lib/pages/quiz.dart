@@ -33,14 +33,12 @@ class _CountryQuizState extends State<CountryQuiz> {
   void initState() {
     int qindex = 0;
     super.initState();
-    questions = widget.country.questions!
-        .map((q) {
-          var question = Question(q, widget.country.choices![qindex]);
-          qindex++;
-          return question;
-        })
-        .toList();
-questions.shuffle();
+    questions = widget.country.questions!.map((q) {
+      var question = Question(q, widget.country.choices![qindex]);
+      qindex++;
+      return question;
+    }).toList();
+    questions.shuffle();
   }
 
   @override
@@ -91,9 +89,9 @@ questions.shuffle();
 
   @override
   Widget build(BuildContext context) {
-    // Handle the case where questions or choices is null
     if (widget.country.questions == null || widget.country.choices == null) {
       return Scaffold(
+        backgroundColor: Colors.grey[800],
         body: Center(
           child: Text('Error: Quiz data not found.'),
         ),
@@ -112,8 +110,9 @@ questions.shuffle();
     }
 
     return Scaffold(
+      backgroundColor: Colors.grey[800],
       appBar: AppBar(
-        title: Text('Country Quiz'),
+        title: Center(child: Text('Country Quiz')),
         leading: Builder(
           builder: (context) {
             return IconButton(
@@ -149,9 +148,9 @@ questions.shuffle();
               Text(
                 currentQuestion.question,
                 style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
               ),
               SizedBox(height: 16),
               Expanded(
@@ -162,8 +161,15 @@ questions.shuffle();
                     String choice = entry.value;
 
                     return RadioListTile<int>(
-                      title: Text(choice),
+                      title: Text(
+                        choice,
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
                       value: index,
+                      activeColor: Colors.white,
+                      selectedTileColor: Colors.white,
                       groupValue: groupValue,
                       onChanged: (value) {
                         setState(() {
@@ -176,6 +182,9 @@ questions.shuffle();
               ),
               SizedBox(height: 16),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.pink[400],
+                ),
                 onPressed: _checkAnswer,
                 child: Text('Submit'),
               ),

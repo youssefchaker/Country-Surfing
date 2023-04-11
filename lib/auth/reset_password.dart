@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:test/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:test/shared/constants.dart';
 
 class ResetPassword extends StatefulWidget {
   @override
@@ -21,9 +22,10 @@ class _ResetPasswordState extends State<ResetPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[800],
       appBar: AppBar(
         backgroundColor: Colors.blueGrey[800],
-        title: Text('Reset Password'),
+        title: Center(child: Text('Reset Password')),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -34,15 +36,13 @@ class _ResetPasswordState extends State<ResetPassword> {
             children: [
               Text(
                 'Enter your email address to reset your password.',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16, color: Colors.white),
               ),
               SizedBox(height: 16),
               Center(
                 child: TextFormField(
                   controller: _emailController,
-                  decoration: InputDecoration(
-                    labelText: 'Email',
-                  ),
+                  decoration: textInputDecoration.copyWith(hintText: 'Email'),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter your email.';

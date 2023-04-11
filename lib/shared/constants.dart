@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-//used to style input fields to avoid repetetion
 const textInputDecoration = InputDecoration(
   fillColor: Colors.white,
   filled: true,

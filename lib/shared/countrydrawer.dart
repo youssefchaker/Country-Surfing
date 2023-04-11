@@ -8,7 +8,7 @@ class CountryDrawer extends StatefulWidget {
 }
 
 class _CountryDrawerState extends State<CountryDrawer> {
-  String selectedCountry ="";
+  String selectedCountry = "";
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -57,8 +57,6 @@ class _CountryDrawerState extends State<CountryDrawer> {
                         FirebaseFirestore.instance.collection('countries');
                     QuerySnapshot<Map<String, dynamic>> querySnapshot =
                         await countriesRef.get();
-
-                    // Process the data
                     querySnapshot.docs.forEach((doc) {
                       doc.data().forEach((key, value) {
                         if (key == selectedCountry) {
@@ -95,6 +93,9 @@ class _CountryDrawerState extends State<CountryDrawer> {
                         lng: lng,
                         capital: capital);
                     Navigator.pushNamed(context, '/info', arguments: cnt);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Country successfully Changed')),
+                    );
                   }
                 },
               ));
@@ -102,7 +103,27 @@ class _CountryDrawerState extends State<CountryDrawer> {
           });
 
           return ListView(
-            children: countryList,
+            padding: EdgeInsets.zero,
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width - 64,
+                child: DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: Colors.blueGrey[800],
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Country Selection',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 21,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              ...countryList,
+            ],
           );
         },
       ),
