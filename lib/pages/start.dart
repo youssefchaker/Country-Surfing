@@ -140,7 +140,7 @@ class _StartPageState extends State<StartPage> {
                 return AlertDialog(
                   title: const Text('Error'),
                   content:
-                      const Text('Cannot retrieve countries from database.'),
+                      const Text('Cannot retrieve countries.Please make sure you are connected to the Internet'),
                   actions: [
                     TextButton(
                       onPressed: () {

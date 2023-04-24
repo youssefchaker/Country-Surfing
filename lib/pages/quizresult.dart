@@ -74,7 +74,8 @@ class CountryQuizResultsScreen extends StatelessWidget {
                     backgroundColor: Colors.pink[400],
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/quiz', arguments: country);
+                    Navigator.pushReplacementNamed(context, '/quiz',
+                        arguments: country);
                   },
                   child: Text('Retry Quiz'),
                 ),

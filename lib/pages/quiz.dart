@@ -34,11 +34,12 @@ class _CountryQuizState extends State<CountryQuiz> {
     int qindex = 0;
     super.initState();
     questions = widget.country.questions!.map((q) {
-      var question = Question(q, widget.country.choices![qindex]);
-      qindex++;
+      var question = Question(q, widget.country.choices![_questionIndex]);
+      _questionIndex++;
       return question;
     }).toList();
     questions.shuffle();
+    _questionIndex = 0;
   }
 
   @override
@@ -93,7 +94,8 @@ class _CountryQuizState extends State<CountryQuiz> {
       return Scaffold(
         backgroundColor: Colors.grey[800],
         body: Center(
-          child: Text('Error: Quiz data not found.'),
+          child: Text(
+              'Quiz not found.Please make sure you are connected to the Internet'),
         ),
       );
     }
@@ -104,7 +106,8 @@ class _CountryQuizState extends State<CountryQuiz> {
     } catch (e) {
       return Scaffold(
         body: Center(
-          child: Text('Error: Failed to load quiz question.'),
+          child: Text(
+              'Failed to load quiz question.Please make sure you are connected to the Internet'),
         ),
       );
     }
@@ -116,7 +119,7 @@ class _CountryQuizState extends State<CountryQuiz> {
         leading: Builder(
           builder: (context) {
             return IconButton(
-              icon: Icon(Icons.flag, color: Colors.white),
+              icon: Icon(Icons.language, color: Colors.white),
               onPressed: () {
                 Scaffold.of(context).openDrawer();
               },
@@ -127,7 +130,8 @@ class _CountryQuizState extends State<CountryQuiz> {
           Builder(
             builder: (context) {
               return IconButton(
-                icon: Icon(Icons.pages, color: Colors.white),
+                icon: Icon(Icons.auto_awesome_motion_outlined,
+                    color: Colors.white),
                 onPressed: () {
                   Scaffold.of(context).openEndDrawer();
                 },
@@ -153,7 +157,7 @@ class _CountryQuizState extends State<CountryQuiz> {
                     color: Colors.white),
               ),
               SizedBox(height: 16),
-              Expanded(
+              Flexible(
                 child: ListView(
                   children:
                       currentQuestion.choices!.asMap().entries.map((entry) {
@@ -168,8 +172,6 @@ class _CountryQuizState extends State<CountryQuiz> {
                         ),
                       ),
                       value: index,
-                      activeColor: Colors.white,
-                      selectedTileColor: Colors.white,
                       groupValue: groupValue,
                       onChanged: (value) {
                         setState(() {
@@ -180,7 +182,6 @@ class _CountryQuizState extends State<CountryQuiz> {
                   }).toList(),
                 ),
               ),
-              SizedBox(height: 16),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.pink[400],

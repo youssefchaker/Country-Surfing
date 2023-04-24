@@ -30,16 +30,17 @@ class _RegisterState extends State<Register> {
         elevation: 0.0,
         title: Text('Register'),
         actions: <Widget>[
-         ElevatedButton.icon(
-  onPressed: () {
-    widget.toggleview();
-  },
-  icon: Icon(Icons.person),
-  label: Text("Sign in"),
-  style: ButtonStyle(
-    backgroundColor: MaterialStateProperty.all<Color>(Colors.blueGrey[800]!),
-  ),
-),
+          ElevatedButton.icon(
+            onPressed: () {
+              widget.toggleview();
+            },
+            icon: Icon(Icons.person),
+            label: Text("Sign in"),
+            style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all<Color>(Colors.blueGrey[800]!),
+            ),
+          ),
         ],
       ),
       //check if the page is loading or not if so display the loading screen
@@ -59,7 +60,7 @@ class _RegisterState extends State<Register> {
                       decoration:
                           textInputDecoration.copyWith(hintText: 'Email'),
                       validator: (val) =>
-                          val!.isEmpty ? "enter an email" : null,
+                          val!.isEmpty ? "Please enter an email" : null,
                       onChanged: (val) {
                         setState(() => email = val);
                       },
@@ -69,8 +70,9 @@ class _RegisterState extends State<Register> {
                       decoration:
                           textInputDecoration.copyWith(hintText: 'Password'),
                       obscureText: true,
-                      validator: (val) =>
-                          val!.length < 6 ? "at least 6 chars" : null,
+                      validator: (val) => val!.length < 6
+                          ? "The password must at least be 6 characters long"
+                          : null,
                       onChanged: (val) {
                         setState(() => password = val);
                       },
@@ -96,8 +98,14 @@ class _RegisterState extends State<Register> {
                             if (result == null) {
                               setState(() {
                                 loading = false;
-                                err = 'please supply a valid mail';
+                                err = 'Please supply a valid mail';
                               });
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text(
+                                        'Sucessfully Registered. Welcome')),
+                              );
                             }
                           } else {}
                         }),
@@ -107,7 +115,9 @@ class _RegisterState extends State<Register> {
                     //reserved place to print the error message
                     Text(
                       err,
-                      style: TextStyle(color: Color.fromARGB(255, 236, 4, 4), fontSize: 14.00),
+                      style: TextStyle(
+                          color: Color.fromARGB(255, 236, 4, 4),
+                          fontSize: 14.00),
                     )
                   ],
                 ),

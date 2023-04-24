@@ -27,6 +27,7 @@ class MainApp extends StatelessWidget {
         value: AuthService().user,
         child: MaterialApp(
           routes: {
+            '/': (context) => Wrapper(),
             '/time': (context) {
               final args =
                   ModalRoute.of(context)!.settings.arguments as Country;
@@ -48,7 +49,6 @@ class MainApp extends StatelessWidget {
               return CountryRequest(country: args);
             },
           },
-          home: Wrapper(),
         ));
   }
 }

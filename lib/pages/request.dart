@@ -33,7 +33,7 @@ class _CountryRequestState extends State<CountryRequest> {
         leading: Builder(
           builder: (context) {
             return IconButton(
-              icon: Icon(Icons.flag, color: Colors.white),
+              icon: Icon(Icons.language, color: Colors.white),
               onPressed: () {
                 Scaffold.of(context).openDrawer();
               },
@@ -44,7 +44,7 @@ class _CountryRequestState extends State<CountryRequest> {
           Builder(
             builder: (context) {
               return IconButton(
-                icon: Icon(Icons.pages, color: Colors.white),
+                icon: Icon(Icons.auto_awesome_motion_outlined, color: Colors.white),
                 onPressed: () {
                   Scaffold.of(context).openEndDrawer();
                 },
@@ -101,7 +101,7 @@ class _CountryRequestState extends State<CountryRequest> {
           } else {
             Navigator.pop(context, selectedCountry);
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Request successfully submitted.')),
+              SnackBar(content: Text('Request successfully submited.')),
             );
           }
         },

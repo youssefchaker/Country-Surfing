@@ -27,7 +27,7 @@ class _CountryTimeState extends State<CountryTime> {
   }
 
   Future<void> _getCurrentTime() async {
-    final int timezone = int.parse(widget.country.timezone![4]);
+    final int timezone = int.parse(widget.country.timezone!.substring(3, 5));
     final now = DateTime.now().toUtc().add(Duration(hours: timezone));
     final formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
     setState(() {
@@ -44,7 +44,7 @@ class _CountryTimeState extends State<CountryTime> {
         leading: Builder(
           builder: (context) {
             return IconButton(
-              icon: Icon(Icons.flag, color: Colors.white),
+              icon: Icon(Icons.language, color: Colors.white),
               onPressed: () {
                 Scaffold.of(context).openDrawer();
               },
@@ -55,7 +55,8 @@ class _CountryTimeState extends State<CountryTime> {
           Builder(
             builder: (context) {
               return IconButton(
-                icon: Icon(Icons.pages, color: Colors.white),
+                icon: Icon(Icons.auto_awesome_motion_outlined,
+                    color: Colors.white),
                 onPressed: () {
                   Scaffold.of(context).openEndDrawer();
                 },
@@ -99,7 +100,7 @@ class _CountryTimeState extends State<CountryTime> {
                           children: <Widget>[
                             Text(
                               _currentTime.substring(0, 10) ??
-                                  'Error loading time',
+                                  'Error loading time.Please make sure you are connected to the Internet',
                               style: TextStyle(
                                 fontSize: 40.0,
                                 letterSpacing: 2.0,
@@ -143,7 +144,7 @@ class _CountryTimeState extends State<CountryTime> {
     if (lat == null || lng == null) {
       return Center(
         child: Text(
-          'Error loading map',
+          'Error loading map.Please make sure you are connected to the Internet',
           style: TextStyle(
             color: Colors.white,
             fontSize: 20.0,

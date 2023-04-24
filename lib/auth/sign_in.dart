@@ -58,7 +58,7 @@ class _SignInState extends State<SignIn> {
                         decoration:
                             textInputDecoration.copyWith(hintText: 'Email'),
                         validator: (val) =>
-                            val!.isEmpty ? 'Enter an email' : null,
+                            val!.isEmpty ? 'Please enter an email' : null,
                         onChanged: (val) {
                           setState(() => email = val);
                         },
@@ -68,7 +68,7 @@ class _SignInState extends State<SignIn> {
                         decoration:
                             textInputDecoration.copyWith(hintText: 'Password'),
                         validator: (val) => val!.length < 6
-                            ? 'Enter a password 6+ chars long'
+                            ? 'The password must at least be 6 characters long'
                             : null,
                         obscureText: true,
                         onChanged: (val) {
@@ -92,9 +92,14 @@ class _SignInState extends State<SignIn> {
                               if (result == null) {
                                 setState(() {
                                   loading = false;
-                                  err =
-                                      'Could not sign in with those credentials';
+                                  err = 'Wrong Email or Password ';
                                 });
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text(
+                                          'Sucessefully Logged in. Welcome Back')),
+                                );
                               }
                             }
                           }),

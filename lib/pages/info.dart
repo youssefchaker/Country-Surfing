@@ -24,7 +24,7 @@ class CountryInfo extends StatelessWidget {
         leading: Builder(
           builder: (context) {
             return IconButton(
-              icon: Icon(Icons.flag, color: Colors.white),
+              icon: Icon(Icons.language, color: Colors.white),
               onPressed: () {
                 Scaffold.of(context).openDrawer();
               },
@@ -35,7 +35,8 @@ class CountryInfo extends StatelessWidget {
           Builder(
             builder: (context) {
               return IconButton(
-                icon: Icon(Icons.pages, color: Colors.white),
+                icon: Icon(Icons.auto_awesome_motion_outlined,
+                    color: Colors.white),
                 onPressed: () {
                   Scaffold.of(context).openEndDrawer();
                 },

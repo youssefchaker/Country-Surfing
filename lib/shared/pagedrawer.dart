@@ -38,8 +38,8 @@ class _PageDrawerState extends State<PageDrawer> {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.language),
-            title: Text('Country Time'),
+            leading: Icon(Icons.public),
+            title: Text('Country Time and Map'),
             onTap: () {
               Navigator.pop(context);
               Navigator.push(
@@ -91,11 +91,11 @@ class _PageDrawerState extends State<PageDrawer> {
             title: Text('Logout'),
             onTap: () async {
               await _auth.signout();
-              Navigator.pushReplacement<void, void>(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (BuildContext context) => Wrapper(),
-                  ));
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/',
+                ModalRoute.withName('/'),
+              );
             },
           ),
         ],
