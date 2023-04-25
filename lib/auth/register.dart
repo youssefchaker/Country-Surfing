@@ -116,7 +116,7 @@ class _RegisterState extends State<Register> {
                     Text(
                       err,
                       style: TextStyle(
-                          color: Color.fromARGB(255, 236, 4, 4),
+                          color: Color.fromARGB(255, 186, 26, 26),
                           fontSize: 14.00),
                     )
                   ],
