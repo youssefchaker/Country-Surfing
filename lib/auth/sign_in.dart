@@ -124,7 +124,7 @@ class _SignInState extends State<SignIn> {
                       SizedBox(height: 12.0),
                       Text(
                         err,
-                        style: TextStyle(color: Color.fromARGB(255, 186, 26, 26), fontSize: 14.0),
+                        style: TextStyle(color: Colors.red, fontSize: 14.0),
                       ),
                     ],
                   ),
